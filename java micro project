@@ -1,0 +1,117 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Main {
+    // Data structure to store bookings
+    private static Map<Integer, Booking> bookings = new HashMap<>();
+    private static int bookingIdCounter = 1; // Unique booking ID
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n--- Cab Booking System ---");
+            System.out.println("1. Book a Cab");
+            System.out.println("2. View Bookings");
+            System.out.println("3. Cancel a Booking");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character
+
+            switch (choice) {
+                case 1:
+                    bookCab(scanner);
+                    break;
+
+                case 2:      
+              viewBookings();
+                    break;
+                case 3:
+                    cancelBooking(scanner);
+                    break;
+                case 4:
+                    System.out.println("Exiting the system. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 4);
+        scanner.close();
+    }
+    // Book a cab
+    private static void bookCab(Scanner scanner) {
+        System.out.println("\n--- Book a Cab ---");
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter pickup location: ");
+        String pickupLocation = scanner.nextLine();
+        System.out.print("Enter drop-off location: ");
+        String dropLocation = scanner.nextLine();
+        System.out.print("Enter cab type (Economy/Luxury): ");
+        String cabType = scanner.nextLine();
+
+        System.out.print("Enter cab type (Economy/Luxury): ");
+        String cabType1 = scanner.nextLine();
+        // Create a new booking
+        Booking newBooking = new Booking(bookingIdCounter, name, 
+         pickupLocation, dropLocation, cabType);
+        bookings.put(bookingIdCounter, newBooking);
+        System.out.println("Booking successful! Your Booking ID is: " +
+         bookingIdCounter);  bookingIdCounter++;
+    }
+    // View all bookings
+    private static void viewBookings() {
+        System.out.println("\n--- View Bookings ---");
+        if (bookings.isEmpty()) {
+            System.out.println("No bookings found.");
+        } else {
+            for (Booking booking : bookings.values()) {
+                System.out.println(booking);
+            }
+        }
+    }
+
+    // Cancel a booking
+    private static void cancelBooking(Scanner scanner) {
+        System.out.println("\n--- Cancel a Booking ---");
+        System.out.print("Enter Booking ID to cancel: ");
+        int bookingId = scanner.nextInt();
+
+
+if (bookings.containsKey(bookingId)) {
+            bookings.remove(bookingId);
+            System.out.println("Booking canceled successfully.");
+        } else {
+            System.out.println("No booking found with the given ID.");
+        }
+    }
+}
+// Class to represent a booking
+class Booking {
+    private int bookingId;
+    private String name;
+    private String pickupLocation;
+    private String dropLocation;
+    private String cabType;
+    public Booking(int bookingId, String name, String pickupLocation,
+    String dropLocation, String cabType) {
+        this.bookingId = bookingId;
+        this.name = name;
+        this.pickupLocation = pickupLocation;
+        this.dropLocation = dropLocation;
+        this.cabType = cabType;
+    }
+    @Override
+    public String toString() {
+        return "Booking ID: " + bookingId +
+                ", Name: " + name +
+                ", Pickup: " + pickupLocation +
+                ", Drop-off: " + dropLocation +
+                ", Cab Type: " + cabType;
+    }
+}
+
+
